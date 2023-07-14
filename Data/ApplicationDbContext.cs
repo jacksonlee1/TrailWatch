@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using static Data.Entities.Identity;
 
 namespace Data;
 
-public partial class ApplicationDbContext : DbContext
+public partial class ApplicationDbContext : IdentityDbContext<User, RoleEntity, int, UserClaimEntity, UserRoleEntity, UserLoginEntity, RoleClaimEntity, UserTokenEntity>
 {
     public ApplicationDbContext()
     {
@@ -23,7 +25,7 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Trail> Trails { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+    public override DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=ConnectionStrings:TrailWatchDb");
@@ -107,6 +109,18 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.Password).HasMaxLength(100);
             entity.Property(e => e.UserName).HasMaxLength(100);
+
+            modelBuilder.Entity<User>()
+    .ToTable("Users")
+    .Ignore(u => u.UserName); // Ignore duplicate column
+
+            modelBuilder.Entity<RoleEntity>().ToTable("Roles");
+            modelBuilder.Entity<UserRoleEntity>().ToTable("UserRoles");
+            modelBuilder.Entity<UserClaimEntity>().ToTable("UserClaims");
+            modelBuilder.Entity<UserLoginEntity>().ToTable("UserLogins");
+            modelBuilder.Entity<UserTokenEntity>().ToTable("UserTokens");
+            modelBuilder.Entity<RoleClaimEntity>().ToTable("RoleClaims");
+
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -57,6 +57,21 @@ namespace Services.PostServices
 
 
         }
+         public async Task<IEnumerable<PostListItem?>> GetPostsByTrailIdAsync(int id)
+        {
+            var entities = await _db.Posts.Where(t=>t.TrailId == id).Select(t => new PostListItem
+            {
+                Title = t.Title,
+                Type = t.Type,
+                Date = t.Date
+
+
+            }).ToListAsync();
+
+            return entities;
+
+
+        }
 
         public async Task<PostDetail?> GetPostByIdAsync(int id)
         {

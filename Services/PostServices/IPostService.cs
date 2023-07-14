@@ -10,6 +10,7 @@ namespace Services.PostServices
     {
       Task<bool> AddPostAsync(PostCreate trail);
         Task<IEnumerable<PostListItem?>> GetAllPostsAsync();
+        Task<IEnumerable<PostListItem?>> GetPostsByTrailIdAsync(int id);
         Task<PostDetail?> GetPostByIdAsync(int id);
         Task<bool> UpdatePostAsync(PostUpdate update);
         Task<bool> DeletePostByIdAsync(int id);

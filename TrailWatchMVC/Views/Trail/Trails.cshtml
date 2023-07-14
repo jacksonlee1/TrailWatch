@@ -1,15 +1,13 @@
-@model TrailListItem
+@model List<TrailListItem>
 @{
     ViewData["Title"] = "Trails";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-
-    @foreach (var item in Model)
+    
+    @foreach (var trail in Model)
     {
-        
+        <a asp-controller="Post" asp-action="Post" asp-route-itemid="@trail.Id">@trail.Name</a>
     }
 
 </div>

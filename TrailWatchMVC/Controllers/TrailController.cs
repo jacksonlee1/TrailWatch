@@ -21,19 +21,24 @@ namespace TrailWatchMVC.Controllers
             _logger = logger;
             _trail = trail;
         }
-
+     
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
-       
+       [HttpGet("{id}")]
         public async Task<IActionResult> Trails(int id){
              var model = await _trail.GetTrailsByRegionIdAsync(id);
              return View(model);
         }
 
+         public IActionResult Create(){
+            return View();
+         }
+
         [HttpPost]
-        public async Task<IActionResult> Trails(TrailCreate req)
+        public async Task<IActionResult> Create(TrailCreate req)
         {
             var model = await _trail.AddTrailAsync(req);
             return View(model);

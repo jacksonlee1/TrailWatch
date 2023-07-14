@@ -1,0 +1,8 @@
+@model PostCreate
+
+<form asp-controller="Post"asp-action="Create" method="post">
+    Title: <input asp-for="Title">
+    Content: <input asp-for="Content"/><br>
+    
+    <button type="submit"></button>
+</form>

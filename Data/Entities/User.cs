@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace Data;
 
-public partial class User
+public partial class User:IdentityUser<int>
 {
-    public int Id { get; set; }
+  
 
-    public string Email { get; set; } = null!;
-
-    public string UserName { get; set; } = null!;
-
+    public string UserEmail { get; set; } = null!;
+    public override string Email => UserEmail;
+    public string Username { get; set; } = null!;
+    public override string UserName => Username;
     public string Password { get; set; } = null!;
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();

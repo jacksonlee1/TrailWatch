@@ -1,0 +1,13 @@
+@model List<RegionListItem>
+@{
+    ViewData["Title"] = "Trails";
+}
+
+<div class="text-center">
+    
+    @foreach (var region in Model)
+    {
+        <a asp-controller="Trail" asp-action="Trails" asp-route-itemid="@region.Id">@region.Name</a>
+    }
+
+</div>

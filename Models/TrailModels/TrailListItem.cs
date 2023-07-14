@@ -7,6 +7,7 @@ namespace Models.TrailModels
 {
     public class TrailListItem
     {
+    public int Id {get;set;}
     public string Name { get; set; } = null!;
 
     public int Status { get; set; }

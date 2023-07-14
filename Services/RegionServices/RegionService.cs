@@ -44,6 +44,7 @@ namespace Services.RegionServices
         {
             var entities = await _db.Regions.Select(t => new RegionListItem
             {
+                Id = t.Id,
                Name = t.Name,
                Type = t.Type
 

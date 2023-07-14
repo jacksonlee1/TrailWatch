@@ -1,4 +1,4 @@
-namespace GeneralStoreMVC.Models;
+namespace TrailWatchMVC.Models;
 
 public class ErrorViewModel
 {

@@ -79,6 +79,7 @@ namespace Services.TrailServices
         {
             var entities = await _db.Trails.Where(t=>t.RegionId == id).Select(t => new TrailListItem
             {
+               Id = t.Id, 
                Name = t.Name,
                Status = t.Status,
                LastUpdate = t.LastUpdate

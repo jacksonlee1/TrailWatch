@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
+using TrailWatchMVC.Models;
 using Microsoft.AspNetCore.Mvc;
-using SwapiMVC.Models;
 
-namespace SwapiMVC.Controllers;
+namespace TrailWatch.Controllers;
 
 public class HomeController : Controller
 {
