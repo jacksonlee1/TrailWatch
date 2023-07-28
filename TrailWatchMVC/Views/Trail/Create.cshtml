@@ -1,7 +1,10 @@
 @model TrailCreate
-
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<UserEntity> SignInManager
+@inject UserManager<UserEntity> UserManager
 <form asp-controller="Trail"asp-action="Create" method="post">
-    Name: <input asp-for="Name"/><br>
-    Type:<input asp-for="Type"><br>
-    <button type="submit"></button>
+    <input  type="hidden" asp-for="AdminId" value=@UserManager.GetUserId(User)>
+    <input class="form-control form-control-lg" placeholder="Name" asp-for="Name"/><br>
+ 
+    <button type="submit">Submit</button>
 </form>

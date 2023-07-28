@@ -1,7 +1,16 @@
 @model RegionCreate
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<UserEntity> _userManager
+@inject SignInManager<UserEntity> _signInManager
+    @{
+    ViewData["Title"] = "New";
+ 
+    var _userId = int.Parse(_userManager.GetUserId(_signInManager.Context.User)??"0");
+}
 
 <form asp-controller="Region"asp-action="Create" method="post">
-    Name: <input asp-for="Name"/><br>
-    Type:<input asp-for="Type"><br>
-    <button type="submit"></button>
+ <input class="form-control form-control-lg" placeholder="name" asp-for="Name"/><br>
+
+    <input type="hidden" asp-for="AdminId" value="@_userId" />
+       <button type="submit">Create!</button>
 </form>

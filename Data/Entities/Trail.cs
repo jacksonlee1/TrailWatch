@@ -21,9 +21,23 @@ public partial class Trail
 
     public DateTime? LastUpdate { get; set; }
 
-    public virtual User? Admin { get; set; }
+    public virtual UserEntity? Admin { get; set; }
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 
     public virtual Region? Region { get; set; }
+}
+public enum TrailStatus{
+    Clear =1 ,
+    Wet = 2,
+    Blocked = 2,
+    Closed = 3,
+    Caution = 4
+}
+
+public enum TrailType{
+    Hiking,
+    MTB,
+    Multi,
+    Paved
 }

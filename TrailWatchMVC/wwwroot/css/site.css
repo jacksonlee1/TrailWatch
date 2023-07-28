@@ -19,4 +19,136 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #61c8d3;
+  /* background-image: url(/img/Trail.Png);
+  background-position: center;
+  background-size:cover ;
+  background-attachment:fixed ; */
 }
+html {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll; 
+}
+
+html::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
+
+
+.actions{
+  margin: auto;
+}
+
+.bg-mountain{
+  background-color:#61c8d3
+
+}
+.mountain{
+  position: absolute;
+  width: 100%;
+  height: 1000px;
+  margin-top:17%;
+  animation: 3s ease slidein;
+}
+.mountain img{
+  content: url("../img/SnowCaps.png");
+  width: 100%;
+  
+
+}
+.find{
+  position: absolute;
+  animation: 1.5s ease slidein;
+  margin-top: 75vh;
+  margin-Left: 45vw;
+  padding:2vh 2vw
+
+}
+.bg-img{
+  position:fixed;
+  background-image: url(Background.jpg);
+  background: fixed center cover;
+}
+.trail{
+  position: absolute;
+  width: 100%;
+  margin-top:25%;
+
+  animation: 1.5s ease slidein;
+}
+.trail img{
+  content: url("../img/Trail.png");
+  width: 100%;
+  
+
+}
+@keyframes slidein {
+  from {
+   margin-top: 100%;
+  }
+}
+
+.region{
+ 
+    padding:2vh;
+  }
+
+.region a{
+  text-decoration: none;
+  color: #000;
+}
+
+.trailList{
+ 
+  padding:2vh;
+}
+
+.trailList a{
+text-decoration: none;
+color: #000;
+}
+
+.img{
+  z-index: 2;
+  max-height: 1000px;
+ 
+
+  }
+  .profile-pic{
+    height: 50px;
+    width: 50px;
+    overflow: hidden;
+  }
+.profile-pic img{
+  height: 100%;
+  min-width: auto;
+}
+.new{
+  position: fixed;
+  z-index: 999;
+  width: 100px;
+  height: 100px;
+  bottom: 5vw;
+  left:85vw;
+}
+.new-btn{
+  width: 100%;
+  height:100%
+}
+
+.Clear{
+  background: green;
+}
+.Caution{
+  background: #efdf16;
+}
+.Closed{
+  background: red;
+}
+
+
+  /* to {
+    transform: translateY(0%);
+  } */
+

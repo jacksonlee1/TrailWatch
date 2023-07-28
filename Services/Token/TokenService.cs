@@ -32,13 +32,13 @@ namespace Services.Token
         return GenerateToken(userEntity);
        }
 
-       private async Task<User?> GetValidUserAsync(TokenRequest model){
+       private async Task<UserEntity?> GetValidUserAsync(TokenRequest model){
             var entity = await _context.Users.FirstOrDefaultAsync(u => u.UserName.ToLower() == model.UserName.ToLower());
             if (entity is null){
                 Console.WriteLine("User not Found");
                 return null;
             }
-            var passwordHasher = new PasswordHasher<User>();
+            var passwordHasher = new PasswordHasher<UserEntity>();
             var verifyPasswordResult = passwordHasher.VerifyHashedPassword(entity, entity.Password,model.Password);
             if(verifyPasswordResult == PasswordVerificationResult.Failed){
                 Console.WriteLine("Password Incorrect");
@@ -46,7 +46,7 @@ namespace Services.Token
             }
             return entity;
        }
-       private TokenResponse GenerateToken(User entity){
+       private TokenResponse GenerateToken(UserEntity entity){
         var claims = GetClaims(entity);
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration?["Jwt:Key"]??"none"));
         var credentials = new SigningCredentials(securityKey,SecurityAlgorithms.HmacSha256);
@@ -74,7 +74,7 @@ namespace Services.Token
         
        }
 
-       private Claim[] GetClaims(User user){
+       private Claim[] GetClaims(UserEntity user){
         
         var identifier = _configuration["ClaimTypes:Id"] ?? "Id";
         var claims = new Claim[]

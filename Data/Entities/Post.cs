@@ -11,6 +11,8 @@ public partial class Post
 
     public int? RegionId { get; set; }
 
+    public int? UserId{get;set;}
+
     public string Title { get; set; } = null!;
 
     public int? Type { get; set; }
@@ -24,4 +26,7 @@ public partial class Post
     public virtual Region? Region { get; set; }
 
     public virtual Trail? Trail { get; set; }
+    public virtual UserEntity User{get;set;}
+
+    public string? FileName{get;set;}
 }

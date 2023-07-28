@@ -1,0 +1,22 @@
+@model TrailDetail
+<div class="bg-white d-flex col-12  border border-dark rounded mb-5 align-items-center p-2">
+         
+                    
+                    @*<a asp-controller="Trail" asp-action="Update"  class="w-25 btn m-auto @Model.Status dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">@Model.Status</a>*@
+                
+<form  asp-action="Status" asp-route-id="@Model.Id" method="Post">
+<select onchange="Submit" class="form-select @Model.Status" asp-for="Status">
+   
+     @if(Model.Status==TrailStatus.Clear){<option selected class = "Clear"value="@TrailStatus.Clear">Clear</option>}else{<option class = "Clear" value="@TrailStatus.Clear">Clear</option>}
+     @if(Model.Status==TrailStatus.Caution){<option selected class = "Caution" value="@TrailStatus.Caution">Caution</option>}else{<option class = "Caution" value="@TrailStatus.Caution">Caution</option>}
+     @if(Model.Status==TrailStatus.Closed){<option selected class="Closed" value="@TrailStatus.Closed">Closed</option>}else{<option class="Closed" value="@TrailStatus.Closed">Closed</option>}
+
+</select>
+<button class="btn" type="submit">Update</button>
+</form>
+                <a class="w-50 m-auto link-item" asp-controller="Trail" asp-action="Detail" asp-route-id="@Model.Id">@Model.Name</a>
+              <p class="w-25 m-auto">Last Updated: @Model.LastUpdate</p>
+            
+      
+            </div>
+            

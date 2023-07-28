@@ -1,0 +1,59 @@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<UserEntity> _userManager
+@inject SignInManager<UserEntity> _signInManager
+@using Data.Entities
+@model TrailDetail
+@{
+    ViewData["Title"] = "Detail";
+   
+    
+    var _userId = int.Parse(_userManager.GetUserId(_signInManager.Context.User)??"0");
+    
+    
+}
+
+
+
+<div class="container d-flex justify-content-center" >
+   
+    <div class="bg-white row text-center rounded">
+       <h1  >@Model.Name</h1>
+    
+
+
+        
+      @await Html.PartialAsync("../Trail/_TrailPartial",@Model)
+        
+    
+            
+
+          
+         
+    
+    
+    
+   
+    @foreach (var post in Model.Posts)
+    {
+       
+       @await Html.PartialAsync("../Post/_PostPartial",post)
+       
+    }
+    
+
+    @if(_userId == Model.AdminId){
+        
+       
+<!-- Button trigger modal -->
+
+    
+         @await Html.PartialAsync("../Post/_PostCreatePartial",new PostCreate{
+            TrailId = Model.Id
+         })
+    
+  
+        
+    }
+    </div>
+</div>
+    

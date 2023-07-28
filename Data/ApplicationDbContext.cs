@@ -6,7 +6,7 @@ using static Data.Entities.Identity;
 
 namespace Data;
 
-public partial class ApplicationDbContext : IdentityDbContext<User, RoleEntity, int, UserClaimEntity, UserRoleEntity, UserLoginEntity, RoleClaimEntity, UserTokenEntity>
+public partial class ApplicationDbContext : IdentityDbContext<UserEntity, RoleEntity, int, UserClaimEntity, UserRoleEntity, UserLoginEntity, RoleClaimEntity, UserTokenEntity>
 {
     public ApplicationDbContext()
     {
@@ -25,7 +25,7 @@ public partial class ApplicationDbContext : IdentityDbContext<User, RoleEntity, 
 
     public virtual DbSet<Trail> Trails { get; set; }
 
-    public override DbSet<User> Users { get; set; }
+    public override DbSet<UserEntity> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=ConnectionStrings:TrailWatchDb");
@@ -66,6 +66,9 @@ public partial class ApplicationDbContext : IdentityDbContext<User, RoleEntity, 
             entity.HasOne(d => d.Trail).WithMany(p => p.Posts)
                 .HasForeignKey(d => d.TrailId)
                 .HasConstraintName("FK__Post__Trail Id__49C3F6B7");
+
+            entity.HasOne(d=>d.User).WithMany(d=>d.Posts)
+            .HasForeignKey(d=>d.UserId);
         });
 
         modelBuilder.Entity<Region>(entity =>
@@ -100,19 +103,11 @@ public partial class ApplicationDbContext : IdentityDbContext<User, RoleEntity, 
                 .HasConstraintName("FK__Trail__RegionId__46E78A0C");
         });
 
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC07DF3888B1");
+        base.OnModelCreating(modelBuilder);
 
-            entity.ToTable("User");
-
-            entity.Property(e => e.Email).HasMaxLength(100);
-            entity.Property(e => e.Password).HasMaxLength(100);
-            entity.Property(e => e.UserName).HasMaxLength(100);
-
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<UserEntity>()
     .ToTable("Users")
-    .Ignore(u => u.UserName); // Ignore duplicate column
+    .Ignore(u => u.UserName).Ignore(u=>u.UserEmail); // Ignore duplicate column
 
             modelBuilder.Entity<RoleEntity>().ToTable("Roles");
             modelBuilder.Entity<UserRoleEntity>().ToTable("UserRoles");
@@ -121,7 +116,6 @@ public partial class ApplicationDbContext : IdentityDbContext<User, RoleEntity, 
             modelBuilder.Entity<UserTokenEntity>().ToTable("UserTokens");
             modelBuilder.Entity<RoleClaimEntity>().ToTable("RoleClaims");
 
-        });
 
         OnModelCreatingPartial(modelBuilder);
     }

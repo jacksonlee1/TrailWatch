@@ -1,29 +1,38 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Models.PostModels;
 using Models.TrailModels;
+using Models.UserModels;
 
 namespace Services.TrailServices
 {
     public class TrailService:ITrailService
     {
          private readonly ApplicationDbContext _db; readonly int _userId;
+         
     
-        // public TrailService(IHttpContextAccessor httpContext, ApplicationDbContext db)
-        // {
-             public TrailService(ApplicationDbContext db)
+        public TrailService(IHttpContextAccessor httpContext, ApplicationDbContext db, SignInManager<UserEntity> signInManager, UserManager<UserEntity> userManager)
         {
+
             _db = db;
-            // var userClaims = httpContext.HttpContext.User.Identity as ClaimsIdentity;
-            // var value = userClaims?.FindFirst("Id")?.Value;
-            // var validId = int.TryParse(value, out _userId);
-            // if (!validId)
-            // {
-            //     throw new Exception("Attempted to build NoteService without User Id Claim");
-            // }
+            var user = signInManager.Context.User;
+            _userId = int.Parse(userManager.GetUserId(user)??"0");
+        //     var userClaims = httpContext.HttpContext.User.Identity as ClaimsIdentity;
+        //    var identifierClaimType = config["ClaimTypes:Id"] ?? "Id";
+        // var value = userClaims?.FindFirst(identifierClaimType)?.Value;
+        //     var validId = int.TryParse(value, out _userId);
+        //     if (!validId)
+        //     {
+        //         throw new Exception("Attempted to build NoteService without User Id Claim");
+        //     }
         }
          public async Task<bool> AddTrailAsync(TrailCreate trail)
         {
@@ -33,7 +42,7 @@ namespace Services.TrailServices
                 AdminId = _userId,
                 RegionId = trail.RegionId,
                 Name = trail.Name,
-                Type = trail.Type,
+                Type = "state",
                 Difficulty = trail.Difficulty,
                 Status = 1
             };
@@ -47,7 +56,7 @@ namespace Services.TrailServices
             var entities = await _db.Trails.Select(t => new TrailListItem
             {
                Name = t.Name,
-               Status = t.Status,
+               Status = (TrailStatus)t.Status,
                LastUpdate = t.LastUpdate
 
                
@@ -58,34 +67,49 @@ namespace Services.TrailServices
 
         }
 
-        public async Task<TrailDetail?> GetTrailByIdAsync(int id)
+        public async Task<TrailDetail?> GetTrailByIdAsync(int? id)
         {
-            var entity = await _db.Trails.FindAsync(id);
+            var entity = await _db.Trails.Include(r=>r.Posts).ThenInclude(p=>p.User).FirstOrDefaultAsync(r=> r.Id == id);
             if (entity is null) return null;
-            var note = new TrailDetail
+            var model = new TrailDetail
             {
-                AdminId = id,
+                AdminId = entity.AdminId??0,
+                Id=entity.Id,
                 Name = entity.Name,
                 RegionId = entity.RegionId,
                 Type = entity.Type,
-                Difficulty = entity.Difficulty,
-                Status = entity.Status,
-                LastUpdate = entity.LastUpdate
+                Status=(TrailStatus)entity.Status,
+                Posts = entity.Posts.Select(p=> new PostDetail{
+                    Id=p.Id,
+                    Title = p.Title,
+                    Type=p.Type,
+                    Content=p.Content,
+                    User = new UserDetail{
+                    UserName = p.User.Username,
+                    Id=p.User.Id
+                    },
+                    TrailId=id??0
+
+                }).OrderByDescending(p=>p.Date).ToList()
             };
-            return note;
-        }
+            return model;
+                   }
 
          public async Task<IEnumerable<TrailListItem?>> GetTrailsByRegionIdAsync(int id)
         {
-            var entities = await _db.Trails.Where(t=>t.RegionId == id).Select(t => new TrailListItem
+            var entities = await _db.Trails.Include(t=> t.Region).Where(t=>t.Id ==id).Select(t => new TrailListItem
             {
                Id = t.Id, 
-               Name = t.Name,
-               Status = t.Status,
-               LastUpdate = t.LastUpdate
+               Name = t.Region.Name,
+               Status = (TrailStatus)t.Status,
+               LastUpdate = t.LastUpdate,
+
+
 
                
             }).ToListAsync();
+
+
 
             return entities;
 
@@ -95,13 +119,13 @@ namespace Services.TrailServices
         public async Task<bool> UpdateTrailAsync(TrailUpdate update)
         {
             var entity = await _db.Trails.FindAsync(update.Id);
-            if (entity==null || entity.AdminId != _userId) return false;
-            entity.Name = update.Name;
-            entity.AdminId = update.AdminId;
-            entity.RegionId = update.RegionId;
-            entity.Type = update.Type;
-            entity.Difficulty = update.Difficulty;
-            entity.Status = update.Status;
+            if (entity==null) return false;
+            // entity.Name = update.Name;
+            // entity.AdminId = update.AdminId;
+            // entity.RegionId = update.RegionId;
+            // entity.Type = update.Type;
+            // entity.Difficulty = update.Difficulty;
+            entity.Status = (int)update.Status;
             entity.LastUpdate = DateTime.Now;
             var numChanges = await _db.SaveChangesAsync();
             return numChanges == 1; 

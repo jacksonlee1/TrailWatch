@@ -4,10 +4,37 @@
 }
 
 <div class="text-center">
-    
+    <h2>Choose Your Region:</h2>
     @foreach (var region in Model)
     {
-        <a asp-controller="Trail" asp-action="Trails" asp-route-itemid="@region.Id">@region.Name</a>
-    }
+      
+        <div class="bg-white d-flex row border border-dark rounded m-5 clearfix flex-row">
+            
 
+        <div class="col-3">
+            <div class="region">
+                <a  asp-action="Detail" asp-route-id="@region.Id">@region.Name</a>
+            
+            </div>
+
+            </div>
+            <div class="col-7 region">
+                    <p>@region.NumTrails trails</p>
+            </div>
+            <div class="col-2 region">    <a   id="dropdownMenuButton@region.Id" data-bs-toggle="dropdown" class="list-group-item list-group-item-action list-group-item-secondary dropdown-toggle">
+                            ⋮
+
+                        </a>
+                        
+                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton@region.Id">
+                            
+    <li><a class="dropdown-item" asp-controller="Region"asp-action="Delete" asp-route-id="@region.Id">Delete</a></li>
+  
+
+            <li><a class="dropdown-item" asp-controller="Post "asp-action="Update">Update</a></li></div>
+        </div>
+        
+      
+    }
+    <h4>Can't Find Your Region?</h4> <a asp-action="Create"class="btn btn-secondary">Add New!</a>
 </div>

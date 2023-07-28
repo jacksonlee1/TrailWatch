@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data;
 
 namespace Models.TrailModels
 {
@@ -10,7 +11,7 @@ namespace Models.TrailModels
     public int Id {get;set;}
     public string Name { get; set; } = null!;
 
-    public int Status { get; set; }
+    public TrailStatus Status { get; set; }
 
     public DateTime? LastUpdate { get; set; }
     }

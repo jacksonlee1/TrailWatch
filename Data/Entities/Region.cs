@@ -10,10 +10,10 @@ public partial class Region
     public int? AdminId { get; set; }
 
     
-public string Name { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
     public string Type { get; set; } = null!;
-    public virtual User? Admin { get; set; }
+    public virtual UserEntity? Admin { get; set; }
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 

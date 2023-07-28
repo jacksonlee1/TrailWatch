@@ -1,0 +1,31 @@
+@model PostDetail
+<div class="col-12 bg-white">
+
+ @await Html.PartialAsync("../Post/_PostPartial",@Model)
+@await Html.PartialAsync("_CommentPartial",new CommentCreate())
+@foreach (var c in Model.Comments)
+{   
+<div class="col-10 bg-white mb-3">
+    <h5 class="h5 border-bottom col-12" asp-controller="Account" asp-action="Profile" asp-route-id="@c.User.Id"><object class="profile-pic"  data="~/UserUploads/ProfilePics/default.jpg" type="image/jpg">
+      <img  src="~/UserUploads/ProfilePics/@(c.UserId).jpg" alt="Stack Overflow logo and icons and such">
+    </object> 
+        @c.User.UserName
+        
+    </h5>
+  
+    <p class="p-2 col-7">@c.Content</p>  <a  class="col-2" id="dropdownMenuButton@c.Id" data-bs-toggle="dropdown" class="dropdown-toggle">
+                            ⋮
+
+                        </a> 
+    
+     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton@c.Id">
+                            
+    <li><a class="dropdown-item" asp-controller="Comment"asp-action="Delete" asp-route-id="@c.Id">Delete</a></li>
+  
+               <li><a class="dropdown-item" asp-controller="Comment "asp-action="Update">Update</a></li>
+                         
+                                <li><a class="dropdown-item" href="#">Report</a></li>
+                                </ul>
+    </div>
+}
+</div>

@@ -1,0 +1,19 @@
+@model List<PostListItem>
+@{
+    ViewData["Title"] = "Trails";
+    var trailId = this.ViewContext.RouteData.Values["id"];
+}
+
+
+<div class="text-center">
+    
+    @foreach (var post in Model)
+    {
+        <div class="row">
+        <div class="col"><a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">@post.Title</a></div>
+        </div>
+        
+    }
+    <div><a asp-controller = "Post" asp-action="New" asp-route-id="@trailId">Add Post</a></div>
+
+</div>

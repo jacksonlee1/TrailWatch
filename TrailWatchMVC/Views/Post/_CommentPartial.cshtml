@@ -1,0 +1,10 @@
+@model CommentCreate
+@{
+    var _PostId =  this.ViewContext.RouteData.Values["id"];
+}
+
+<form  asp-controller="Comment" asp-action="Create" method="post">
+    <input class="form-control form-control-lg" asp-for="Content">
+    <input class="form-control form-control-lg" type="hidden" asp-for="PostId" value = " @_PostId">
+    <button class = "btn btn-secondary"type="submit">Add Comment</button>
+</form>

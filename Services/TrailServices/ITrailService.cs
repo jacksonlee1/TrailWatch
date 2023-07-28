@@ -10,7 +10,7 @@ namespace Services.TrailServices
     {
         Task<bool> AddTrailAsync(TrailCreate trail);
         Task<IEnumerable<TrailListItem?>> GetAllTrailsAsync();
-        Task<TrailDetail?> GetTrailByIdAsync(int id);
+        Task<TrailDetail?> GetTrailByIdAsync(int? id);
         Task<IEnumerable<TrailListItem?>> GetTrailsByRegionIdAsync(int id);
         Task<bool> UpdateTrailAsync(TrailUpdate update);
         Task<bool> DeleteTrailByIdAsync(int id);

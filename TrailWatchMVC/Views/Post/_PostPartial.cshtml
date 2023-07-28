@@ -1,0 +1,55 @@
+ @model PostDetail
+ 
+ @{
+var post = Model;
+ var _userId  = Model.User.Id;
+
+ var filename = _userId+"__"+post.Id+".jpg" ;
+ }
+        <div class="d-flex col-12 col-lg-6 col-xl-12 justify-content-center mb-5">
+            <div class="card w-100 bg-none border-none" >
+                 <div class="card-header">
+                    
+                   <h3 class="card-title">
+                    <object class="profile-pic"  data="~/UserUploads/ProfilePics/default.jpg" type="image/jpg">
+      <img  src="~/UserUploads/ProfilePics/@(_userId).jpg" alt="Stack Overflow logo and icons and such">
+    </object> 
+                    @Model.User.UserName</h3>
+                </div>
+                
+                <div class="card-body bg-none border-top">
+               <h5 class="card-subtitle border-bottom">@post.Title</h5>
+                <p class="card-text bg-white">
+                    @post.Content
+                </p>
+              
+               </div>
+                <div class=" d-flex card-img-bottom justify-content-center "><img class="img" src="~/UserUploads/Posts/@filename"></div>
+                    <div class="actions w-100 list-group list-group-horizontal ">
+                        <a asp-action="index" class="list-group-item list-group-item-action list-group-item-secondary">
+                            Like
+                        </a>
+                        <a asp-controller="Post"asp-action="Index" asp-route-id="@post.Id" class="list-group-item list-group-item-action list-group-item-secondary">
+                            Comment
+                        </a>
+
+                        <a   id="dropdownMenuButton@post.Id" data-bs-toggle="dropdown" class="list-group-item list-group-item-action list-group-item-secondary dropdown-toggle">
+                            ⋮
+
+                        </a>
+                        
+                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton@post.Id">
+                            
+    <li><a class="dropdown-item" asp-controller="Post"asp-action="Delete" asp-route-id="@post.Id">Delete</a></li>
+  
+    @await Html.PartialAsync("../Post/Update",new PostUpdate{RegionId=@post.RegionId,TrailId=@post.TrailId,Id=post.Id})
+            <li><a class="dropdown-item" asp-controller="Post "asp-action="Update">Update</a></li>
+                         
+                                <li><a class="dropdown-item" href="#">Report</a></li>
+                            
+  </ul>
+
+                    </div>
+            </div>
+        </div>
+   

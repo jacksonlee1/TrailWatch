@@ -1,0 +1,75 @@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<UserEntity> _userManager
+@inject SignInManager<UserEntity> _signInManager
+@using Data.Entities
+@model RegionVM
+@{
+    ViewData["Title"] = "Detail";
+    var _post = Model.postCreate;
+    var _region = Model.Region;
+    var _userId = int.Parse(_userManager.GetUserId(_signInManager.Context.User)??"0");
+    var _regionId=_region.RegionId;
+    
+}
+
+
+
+<div class="container d-flex justify-content-center" >
+   
+    <div class="bg-white row text-center rounded">
+       <h1  >@_region.Name</h1>
+    <a class="btn btn-secondary" asp-controller="Trail" asp-action="Create" asp-route-id="@_regionId">Create New Trail</a>
+
+    @foreach (var trail in _region.Trails)
+    {
+        
+        @await Html.PartialAsync("../Trail/_TrailPartial",trail)
+        
+    }
+            
+
+          
+         
+    
+    
+    
+   
+    @foreach (var post in _region.Posts)
+    {
+       
+       @await Html.PartialAsync("../Post/_PostPartial",post)
+       
+    }
+    
+
+    @if(_userId == _region.AdminId){
+        _post.RegionId= _region.RegionId;
+       
+<!-- Button trigger modal -->
+<button type="button" class="new btn btn-secondary rounded-circle" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  +
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         @await Html.PartialAsync("../Post/_PostCreatePartial",new PostCreate{
+          RegionId=_region.RegionId
+         })
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+        
+    }
+    </div>
+</div>
+    

@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data;
+using Models.PostModels;
+using Models.TrailModels;
 
 namespace Models.RegionModels
 {
     public class RegionDetail
     {
-      public int RegionId{get;set;}
+        public int RegionId { get; set; } 
         public string Name { get; set; } = null!;
 
-    public string Type { get; set; } = null!;
+        public string Type { get; set; } = null!;
 
-      public  User? Admin { get; set; }
+        public int AdminId { get; set; }
 
-    public  ICollection<Post> Posts { get; set; } = new List<Post>();
+        public ICollection<PostDetail> Posts { get; set; } = new List<PostDetail>();
 
-    public  ICollection<Trail> Trails { get; set; } = new List<Trail>();
+        public ICollection<TrailDetail> Trails { get; set; } = new List<TrailDetail>();
     }
 }

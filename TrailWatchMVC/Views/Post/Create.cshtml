@@ -1,6 +1,11 @@
 @model PostCreate
+@{
+    ViewData["Title"] = "Trails";
+    var trailId = this.ViewContext.RouteData.Values["id"];
+}
+<li><a class="dropdown-item" asp-controller="Post"asp-action="Update">Update</a></li>
 
-<form asp-controller="Post"asp-action="Create" method="post">
+<form asp-controller="Post"asp-action="New" asp-route-id="@trailId" method="post">
     Title: <input asp-for="Title">
     Content: <input asp-for="Content"/><br>
     

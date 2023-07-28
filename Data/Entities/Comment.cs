@@ -15,5 +15,5 @@ public partial class Comment
 
     public virtual Post? Post { get; set; }
 
-    public virtual User? User { get; set; }
+    public virtual UserEntity? User { get; set; }
 }

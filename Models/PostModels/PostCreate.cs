@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Models.PostModels
 {
     public class PostCreate
     {
-            public int Id { get; set; }
+    
 
     public int? TrailId { get; set; }
 
@@ -19,6 +20,8 @@ namespace Models.PostModels
 
     public string? Content { get; set; }
 
-    public DateTime? Date { get; set; }
+    public IFormFile? Image{get;set;}
+
+    public string? FileName{get;set;}
     }
 }

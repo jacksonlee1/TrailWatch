@@ -7,6 +7,9 @@ namespace Models.PostModels
 {
     public class PostListItem
     {
+        public int Id{get;set;}
+        public int? TrailId{get;set;}
+        public int? RegionId{get;set;}
             public string Title { get; set; } = null!;
     public int? Type { get; set; }
 

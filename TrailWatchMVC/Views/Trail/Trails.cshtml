@@ -7,7 +7,13 @@
     
     @foreach (var trail in Model)
     {
-        <a asp-controller="Post" asp-action="Post" asp-route-itemid="@trail.Id">@trail.Name</a>
+        <div class="row">
+        <div class="col"><p>@trail.Status</p><a asp-controller="Trail" asp-action="Posts" asp-route-id="@trail.Id">@trail.Name</a>
+        <a asp-controller="Trail" asp-action="Update" asp-route-id="@trail.Id">Update Status</a>
+        </div>
+        
+        </div>
+        
     }
 
 </div>

@@ -1,8 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout= "_IndexLayout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+     <div class="mountain rellax" data-reallax-speed="8" data-rellax-percentage="0.5"><img/></div>
+     <div class="trail rellax"data-reallax-speed="7" data-rellax-percentage="0.5"><img ></div>
+     <a class=" btn btn-secondary find" asp-controller="Region" asp-action="Index">Find Your Trail</a>
+    
+           <script src="https://cdn.jsdelivr.net/gh/dixonandmoe/rellax@master/rellax.min.js"></script>
+        <script>
+  // Also can pass in optional settings block
+  var rellax = new Rellax('.rellax');
+</script>
+          
+       
+

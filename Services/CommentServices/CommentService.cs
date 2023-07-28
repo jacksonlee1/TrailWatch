@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models.CommentModels;
 
@@ -14,9 +15,12 @@ namespace Services.CommentServices
 
         // public CommentService(IHttpContextAccessor httpContext, CommentWatchContext db)
         // {
-        public CommentService(ApplicationDbContext db)
+        public CommentService(ApplicationDbContext db, SignInManager<UserEntity> signInManager, UserManager<UserEntity> userManager)
         {
+
             _db = db;
+            var user = signInManager.Context.User;
+            _userId = int.Parse(userManager.GetUserId(user)??"0");
             // var userClaims = httpContext.HttpContext.User.Identity as ClaimsIdentity;
             // var value = userClaims?.FindFirst("Id")?.Value;
             // var validId = int.TryParse(value, out _userId);
@@ -32,7 +36,7 @@ namespace Services.CommentServices
             {
 
                 PostId = req.PostId,
-                UserId = req.UserId,
+                UserId = _userId,
                 Content = req.Content,
 
 
@@ -76,8 +80,9 @@ namespace Services.CommentServices
         public async Task<bool> UpdateCommentAsync(CommentUpdate update)
         {
             var entity = await _db.Comments.FindAsync(update.Id);
-            if (entity == null) return false;
-            //if (entity==null || entity.AdminId != _userId) return false;
+            
+            if (entity == null || entity.UserId != _userId) return false;
+           
             entity.PostId = update.PostId;
             entity.Content = update.Content;
 
@@ -90,7 +95,7 @@ namespace Services.CommentServices
         {
             var entity = await _db.Comments.FindAsync(id);
             if (entity == null) return false;
-            //if (entity==null || entity.AdminId != _userId) return false;
+            if (entity==null || entity.UserId != _userId) return false;
             _db.Comments.Remove(entity);
             var numChanges = await _db.SaveChangesAsync();
             return numChanges == 1;

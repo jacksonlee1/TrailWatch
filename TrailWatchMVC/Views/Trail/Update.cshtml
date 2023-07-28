@@ -1,0 +1,12 @@
+@model Trail
+@{
+    var trailId = this.ViewContext.RouteData.Values["id"];
+}
+<form asp-action="Status" asp-route-id="@trailId" method="Post">
+<select asp-for="Status">
+    <option value="@TrailStatus.Clear">Clear</option>
+    <option value="@TrailStatus.Caution">Caution</option>
+    <option value="@TrailStatus.Closed">Closed</option>
+</select>
+<input type="submit" value="Submit">
+</form>

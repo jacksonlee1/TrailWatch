@@ -11,12 +11,14 @@ namespace Services.UserServices
     {
    
         Task<bool> RegisterUserAsync(UserRegister model);
-        Task<User?> GetUserByIdAsync(int id);
+        Task<UserEntity?> GetUserByIdAsync(int id);
         Task<List<UserDetail>> GetAllUsersAsync();
-        Task<bool> DeleteUserByIdAsync(int id);
-        Task<bool> UpdateUserAsync(UserUpdate req);
-        Task<bool> UpdateCurrentUserAsync(UserUpdate req);
-        Task<User?> GetUserByCurrentUserAsync();
+        Task<bool> DeleteUserAsync(int id);
+        Task<bool> UpdateUserByIdAsync(UserUpdate req);
+
+        Task<bool> LoginAsync(UserLogin model);
+        Task LogoutAsync();
+    
       
     }
 }

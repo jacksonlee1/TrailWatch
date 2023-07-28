@@ -1,0 +1,17 @@
+@model PostUpdate
+
+
+   
+<form  enctype="multipart/form-data"  asp-controller="Post" asp-action="Update" method="post">
+ 
+       
+     <input class="form-control form-control-lg" type="text" placeholder="Title" aria-label=".form-control-lg example" asp-for="Title" /><br>
+     <input class="form-control form-control-lg" type="text" placeholder="Body" aria-label=".form-control-lg example"  asp-for="Content">
+     
+    
+    
+
+        <button type="submit" class="btn btn-primary">Update</button>
+      
+      </form>
+   
