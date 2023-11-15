@@ -23,7 +23,7 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
-        run: dotnet build --project ./TrailwatchMVC/ --configuration Release
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
         run: dotnet publish --project ./TrailWatchMVC/ -c Release -o ${{env.DOTNET_ROOT}}/myapp
